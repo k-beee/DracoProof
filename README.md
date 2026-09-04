@@ -2,16 +2,21 @@
 
 ### Autonomous AI Covenant & Deliverable Milestone Adjudication Protocol
 
+[![Live dApp](https://img.shields.io/badge/Live_dApp-draco--proof--tau.vercel.app-00F2FE?style=for-the-badge&logo=vercel&logoColor=black)](https://draco-proof-tau.vercel.app/)
+[![StudioNet](https://img.shields.io/badge/GenLayer-StudioNet_61999-F5A623?style=for-the-badge)](https://explorer-studio.genlayer.com/address/0x7626cFf8be3470FD0A29762C682b8c2099463720)
+[![License: MIT](https://img.shields.io/badge/License-MIT-4FACFE?style=for-the-badge)](LICENSE)
+
 > **"A promise in code is only as strong as the oracle that verifies its fulfillment."**  
 > DracoProof brings decentralized, consensus-driven qualitative milestone adjudication to GenLayer Intelligent Contracts.
 
 ---
 
-
 ## 🌐 Canonical Live Deployment
 
+- **Live Application:** [https://draco-proof-tau.vercel.app/](https://draco-proof-tau.vercel.app/)
 - **Network:** GenLayer StudioNet (Chain ID `61999`)
 - **Contract Address:** [`0x7626cFf8be3470FD0A29762C682b8c2099463720`](https://explorer-studio.genlayer.com/address/0x7626cFf8be3470FD0A29762C682b8c2099463720)
+- **Explorer:** [GenLayer Studio Explorer](https://explorer-studio.genlayer.com/address/0x7626cFf8be3470FD0A29762C682b8c2099463720)
 - **Class Name:** `DracoProof`
 - **SDK Compatibility:** `genlayer-js` `^1.1.8`
 
