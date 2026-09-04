@@ -7,6 +7,16 @@
 
 ---
 
+
+## 🌐 Canonical Live Deployment
+
+- **Network:** GenLayer StudioNet (Chain ID `61999`)
+- **Contract Address:** [`0x7626cFf8be3470FD0A29762C682b8c2099463720`](https://explorer-studio.genlayer.com/address/0x7626cFf8be3470FD0A29762C682b8c2099463720)
+- **Class Name:** `DracoProof`
+- **SDK Compatibility:** `genlayer-js` `^1.1.8`
+
+---
+
 ## 🏛️ Executive Overview
 
 In the emerging economy of autonomous AI agents, decentralized DAOs, and high-stakes freelance service contracts, participants enter into **Service Level Covenants**. These agreements encompass complex, qualitative deliverables:
