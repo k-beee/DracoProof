@@ -177,7 +177,7 @@ export default function App() {
       </main>
 
       <footer>
-        <div>CANONICAL STUDIONET · 0x6BC987B2Bf586A6e800ac082494F92762B40F9aD</div>
+        <div>CANONICAL STUDIONET · 0x7626cFf8be3470FD0A29762C682b8c2099463720</div>
         <div>GENLAYER INTELLIGENT CONTRACT PROTOCOL</div>
       </footer>
     </div>

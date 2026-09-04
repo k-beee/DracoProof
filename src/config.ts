@@ -5,8 +5,7 @@ export const network = {
 } as const;
 
 export const contract = {
-  // Configured placeholder address ready for deployed StudioNet contract
-  address: "0x6BC987B2Bf586A6e800ac082494F92762B40F9aD" as `0x${string}`,
+  address: "0x7626cFf8be3470FD0A29762C682b8c2099463720" as `0x${string}`,
   className: "DracoProof",
   runner: "py-genlayer:1jb45aa8ynh2a9c9xn3b7qqh8sm5q93hwfp7jqmwsfhh8jpz09h6",
 } as const;
