@@ -1,7 +1,9 @@
+import hashlib
 import pytest
 
 CONTRACT = "contracts/DracoProof.py"
-SAMPLE_HASH = "c" * 64
+SAMPLE_BODY = "Artifact data"
+SAMPLE_HASH = hashlib.sha256(SAMPLE_BODY.encode()).hexdigest()
 
 def test_executor_dossier_and_composability_checks(direct_deploy, direct_vm):
     direct_vm.mock_web(r"evidence\.org", {"status": 200, "body": "Artifact data"})

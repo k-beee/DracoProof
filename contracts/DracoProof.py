@@ -24,6 +24,7 @@ Core Architectural Invariants:
 """
 
 from dataclasses import dataclass
+import hashlib
 from genlayer import *
 
 # Bounded capacities and string length guardrails
@@ -388,6 +389,7 @@ class DracoProof(gl.Contract):
         label: str,
     ) -> str:
         covenant = self._require_covenant(covenant_id)
+        self._require_covenant_party(covenant)
         if not covenant.is_frozen:
             raise gl.vm.UserError("Deliverables can only be registered for frozen covenants")
         if milestone_index >= covenant.milestone_count:
@@ -438,6 +440,7 @@ class DracoProof(gl.Contract):
         attached_proof_ids: DynArray[str],
     ) -> str:
         covenant = self._require_covenant(covenant_id)
+        self._require_covenant_party(covenant)
         if not covenant.is_frozen:
             raise gl.vm.UserError("Covenant must be frozen before adjudication")
         if milestone_index >= covenant.milestone_count:
@@ -445,8 +448,8 @@ class DracoProof(gl.Contract):
 
         m_key = self._milestone_key(covenant_id, milestone_index)
         milestone = self.milestones[m_key]
-        if milestone.status == MILESTONE_SATISFIED:
-            raise gl.vm.UserError("Milestone is already satisfied and finalized")
+        if milestone.status != MILESTONE_PENDING:
+            raise gl.vm.UserError("Milestone has already been adjudicated and finalized")
 
         if len(attached_proof_ids) == 0 or len(attached_proof_ids) > MAX_PROOFS_PER_ADJUDICATION:
             raise gl.vm.UserError("Invalid number of attached deliverable proofs")
@@ -475,12 +478,14 @@ class DracoProof(gl.Contract):
 
         proof_ids_list = []
         proof_urls_list = []
+        proof_hashes_list = []
         p_idx = 0
         while p_idx < len(attached_proof_ids):
             pid = attached_proof_ids[p_idx]
             p_obj = self.proofs[pid]
             proof_ids_list.append("" + pid)
             proof_urls_list.append("" + p_obj.source_url)
+            proof_hashes_list.append("" + p_obj.provenance_hash)
             p_idx += 1
 
         def evaluate() -> dict:
@@ -488,10 +493,21 @@ class DracoProof(gl.Contract):
             u_idx = 0
             while u_idx < len(proof_urls_list):
                 url = proof_urls_list[u_idx]
+                expected_hash = proof_hashes_list[u_idx]
                 response = gl.nondet.web.get(url)
                 if response.status >= 400 or response.body is None:
                     raise gl.vm.UserError("TRANSIENT:EVIDENCE_SOURCE_UNAVAILABLE")
-                rendered_proofs.append(response.body.decode("utf-8"))
+                raw_bytes = response.body
+                # Verify cryptographic provenance hash if provided
+                if expected_hash and len(expected_hash) == 64:
+                    computed_hash = hashlib.sha256(raw_bytes).hexdigest().lower()
+                    if computed_hash != expected_hash.lower():
+                        return {
+                            "source_integrity": "FAIL",
+                            "summary": "Cryptographic provenance hash mismatch for proof " + proof_ids_list[u_idx] + ": expected " + expected_hash + ", got " + computed_hash,
+                            "criteria": [{"index": c_i, "verdict": "FAIL", "used_proof_ids": []} for c_i in range(len(criteria_list))]
+                        }
+                rendered_proofs.append(raw_bytes.decode("utf-8"))
                 u_idx += 1
 
             prompt = _build_adjudication_prompt(
@@ -681,6 +697,13 @@ class DracoProof(gl.Contract):
     def _require_creator(self, covenant: Covenant) -> None:
         if covenant.creator != gl.message.sender_address:
             raise gl.vm.UserError("Only the covenant creator may perform this action")
+
+    def _require_covenant_party(self, covenant: Covenant) -> None:
+        sender = str(gl.message.sender_address).lower()
+        creator = str(covenant.creator).lower()
+        executor = str(covenant.designated_executor).lower()
+        if sender != creator and sender != executor:
+            raise gl.vm.UserError("Only covenant creator or designated executor may perform this action")
 
     def _milestone_key(self, covenant_id: str, milestone_index: u32) -> str:
         return covenant_id + ":m:" + str(milestone_index)

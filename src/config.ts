@@ -5,7 +5,7 @@ export const network = {
 } as const;
 
 export const contract = {
-  address: "0x7626cFf8be3470FD0A29762C682b8c2099463720" as `0x${string}`,
+  address: "0xD813D7096987B7260e012f39fA6f6241e9CCA4e9" as `0x${string}`,
   className: "DracoProof",
   runner: "py-genlayer:1jb45aa8ynh2a9c9xn3b7qqh8sm5q93hwfp7jqmwsfhh8jpz09h6",
 } as const;

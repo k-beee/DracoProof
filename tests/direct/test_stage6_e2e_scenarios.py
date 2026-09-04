@@ -1,7 +1,9 @@
+import hashlib
 import pytest
 
 CONTRACT = "contracts/DracoProof.py"
-HASH_1 = "d" * 64
+BODY_1 = "Performance benchmarks passed with 22ms latency."
+HASH_1 = hashlib.sha256(BODY_1.encode()).hexdigest()
 HASH_2 = "e" * 64
 
 def test_full_multi_milestone_adjudication_lifecycle(direct_deploy, direct_vm):

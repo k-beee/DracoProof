@@ -21,7 +21,7 @@ import {
   ArrowRight,
   Layers,
   Lock,
-} from "lucide-react";
+} from "./icons";
 
 type Route = "nexus" | "forge" | "vault" | "court" | "dossier" | "terminal" | "explorer";
 
@@ -293,8 +293,14 @@ function CovenantForgeView({
     if (!cleanMilestones.length) return;
     const res = await transact("create_covenant", [title, scope, executor, cleanMilestones]);
     if (res) {
-      setCreatedCovenantId("covenant-submitted");
-      setTargetCovenantId("covenant-1");
+      try {
+        const updatedCount = await dracoProof.getCovenantCount();
+        const newId = `covenant-${updatedCount}`;
+        setCreatedCovenantId(newId);
+        setTargetCovenantId(newId);
+      } catch {
+        setCreatedCovenantId("covenant-created");
+      }
     }
   };
 
