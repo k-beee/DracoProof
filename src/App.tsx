@@ -17,13 +17,9 @@ import {
   Award,
   Terminal as TerminalIcon,
   Search,
-  CheckCircle2,
-  AlertTriangle,
   Flame,
   ArrowRight,
-  ExternalLink,
   Layers,
-  Copy,
   Lock,
 } from "lucide-react";
 
