@@ -115,8 +115,7 @@ async function preflightWallet(account: string): Promise<void> {
     if (snapInstalled) return;
   } catch (error) {
     throw new Error(
-      `Injected wallet cannot provide GenLayer Snap access (${describeWalletError(error)}). Ensure MetaMask Snaps is enabled.`,
-      { cause: error }
+      `Injected wallet cannot provide GenLayer Snap access (${describeWalletError(error)}). Ensure MetaMask Snaps is enabled.`
     );
   }
 }

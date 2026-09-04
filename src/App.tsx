@@ -152,7 +152,7 @@ export default function App() {
       {tx.status !== "READY" && (
         <div className={`tx-status-bar ${tx.status.toLowerCase()}`}>
           <div className="tx-info">
-            <span className="tx-badge">{tx.status.replaceAll("_", " ")}</span>
+            <span className="tx-badge">{String(tx.status).replace(/_/g, " ")}</span>
             {tx.hash && <span className="tx-hash">{truncate(tx.hash)}</span>}
             {tx.message && <span>{tx.message}</span>}
           </div>
